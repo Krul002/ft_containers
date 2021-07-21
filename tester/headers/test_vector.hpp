@@ -21,6 +21,7 @@ void	constructors();
 void	capacity();
 void	access();
 void	modifiers();
+void	operators();
 
 template <class T, class Iterator1, class Iterator2>
 	bool	test_vector(std::vector<T> &std_vec, ft::vector<T> &ft_vec) {

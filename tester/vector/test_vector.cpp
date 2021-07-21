@@ -50,4 +50,7 @@ void	test_vector() {
 	print_test("Modifiers", "assign, push, pop, insert, erase, swap, clear", 7);
 	modifiers();
 	std::cout << std::endl;
+	print_test("Operators", "==, !=, <, <=, >, >=", 6);
+	operators();
+	std::cout << std::endl;
 }
