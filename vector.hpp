@@ -307,11 +307,15 @@ namespace ft {
 
 	template <class T, class Alloc>
 	bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		typename ft::vector<T>::const_iterator	it = lhs.begin();
 		if (lhs.size() != rhs.size())
-			return false;
-		for (size_t	i = 0; i < lhs.size(); ++i)
-			if (lhs[i] != rhs[i])
+			return (false);
+		typename ft::vector<T>::const_iterator it1 = lhs.begin();
+		typename ft::vector<T>::const_iterator ite1 = lhs.end();
+		typename ft::vector<T>::const_iterator it2 = rhs.begin();
+		typename ft::vector<T>::const_iterator ite2 = rhs.end();
+
+		for (;it1 != ite1; ++it1, ++it2)
+			if (it2 == ite2 || *it1 != *it2)
 				return false;
 		return true;
 	}
@@ -323,43 +327,30 @@ namespace ft {
 	
 	template <class T, class Alloc>
 	bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		for (size_t	i = 0; i < lhs.size() && i < rhs.size(); ++i)
-			if (!(lhs[i] < rhs[i])) {
-				return false;
-			}
-		if (!(lhs.size() < rhs.size()))
-			return false;
-		return true;
+		typename ft::vector<T>::const_iterator it1 = lhs.begin();
+		typename ft::vector<T>::const_iterator ite1 = lhs.end();
+		typename ft::vector<T>::const_iterator it2 = rhs.begin();
+		typename ft::vector<T>::const_iterator ite2 = rhs.end();
+
+		for (;it1!=ite1; ++it1, ++it2)
+			if (it2==ite2 || *it2<*it1) return false;
+			else if (*it1<*it2) return true;
+		return (it2!=ite2);
 	}
 	
 	template <class T, class Alloc>
 	bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		for (size_t	i = 0; i < lhs.size() && i < rhs.size(); ++i)
-			if (lhs[i] > rhs[i])
-				return false;
-		if (lhs.size() <= rhs.size())
-			return true;
-		return false;
+		return !(lhs > rhs);
 	}
 	
 	template <class T, class Alloc>
 	bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		for (size_t	i = 0; i < lhs.size() && i < rhs.size(); ++i)
-			if (lhs[i] <= rhs[i])
-				return false;
-		if (lhs.size() > rhs.size())
-			return true;
-		return false;
+		return rhs < lhs;
 	}
 	
 	template <class T, class Alloc>
 	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		for (size_t	i = 0; i < lhs.size() && i < rhs.size(); ++i)
-			if (lhs[i] < rhs[i])
-				return false;
-		if (lhs.size() >= rhs.size())
-			return true;
-		return false;
+		return !(lhs < rhs);
 	}
 
 	template <class T, class Alloc>

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <iostream>
 #include <ostream>
+#include "red_black_tree.hpp"
 
 namespace ft {
 
@@ -19,6 +20,7 @@ namespace ft {
 	struct	bidirectional_iterator_tag : public forward_iterator_tag {};
 
 	struct	random_access_iterator_tag : public bidirectional_iterator_tag {};
+
 
 	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 		struct	iterator {
@@ -56,6 +58,30 @@ namespace ft {
 			typedef random_access_iterator_tag	iterator_category;
 		};
 	
+	template <class T>
+		struct	check_const {
+			typedef T type;
+			check_const() {std::cout << "NOT CONST" << std::endl;}
+		};
+	
+	template <class T>
+		struct	check_const<const T> {
+			typedef T type;
+			check_const() {std::cout << "CONST" << std::endl;}
+		};
+
+	template <class T>
+		struct	check_const<T*> {
+			typedef T* type;
+			check_const() {std::cout << 2 << std::endl;}
+		};
+	
+	template <class T>
+		struct	check_const<const T*> {
+			typedef T* type;
+			check_const() {std::cout << 3 << std::endl;}
+		};
+
 	/*==================*/
 	/*ITERATOR FUNCTIONS*/
 	/*==================*/
@@ -118,6 +144,99 @@ namespace ft {
 	/*================*/
 	/*ITERATOR CLASSES*/
 	/*================*/
+
+	template <class Pair>
+		class	map_iterator {
+		private:
+			typedef typename Pair::first_type key_type;
+			typedef typename Pair::second_type mapped_type;
+			typedef ft::red_black_tree_node<key_type, mapped_type> node;
+			typedef ft::red_black_tree<key_type, mapped_type> rb_tree;
+			typedef Pair	pair;
+			node	*_base;
+			rb_tree	_tree;
+		public:
+			typedef Pair	value_type;
+			typedef ptrdiff_t	difference_type;
+			typedef value_type*	pointer;
+			typedef value_type&	reference;
+			typedef bidirectional_iterator_tag	iterator_category;
+		public:
+			/*
+				Конструкторы и Деструктор
+			*/
+			map_iterator() : _base(NULL) {}
+
+			explicit map_iterator(node* pointer) : _base(pointer) {}
+
+			map_iterator(const map_iterator& iter) : _base(iter.base()) {}
+
+			~map_iterator() {}
+
+			/*
+				Base
+			*/
+
+			node	*base() const {
+				return this->_base;
+			}
+
+			/*
+				Операторы
+			*/
+
+			reference	operator*() const {
+				return this->_base->pair;
+			}
+
+			pointer	operator->() const {
+				return &(this->_base->pair);
+			}
+
+			map_iterator&	operator++() {
+				this->_base = this->_tree.min_to_max(this->_base);
+				return *this;
+			}
+
+			map_iterator	operator++(int n) {
+				map_iterator<pair>	tmp(*this);
+				this->_base = this->_tree.min_to_max(this->_base);
+				return tmp;
+			}
+
+			map_iterator&	operator--() {
+				this->_base = this->_tree.max_to_min(this->_base);
+				return *this;
+			}
+
+			map_iterator	operator--(int n) {
+				map_iterator<pair>	tmp(*this);
+				this->_base = this->_tree.max_to_min(this->_base);
+				return tmp;
+			}
+		};
+
+	template <class Iterator>
+		bool	operator==(const map_iterator<Iterator>& A, const map_iterator<Iterator>& B) {
+			return A.base() == B.base();
+		}
+	
+	template <class Iterator1, class Iterator2>
+		bool	operator==(const map_iterator<Iterator1>& A, const map_iterator<Iterator2>& B) {
+			return A.base() == B.base();
+		}
+	
+	template <class Iterator>
+		bool	operator!=(const map_iterator<Iterator>& A, const map_iterator<Iterator>& B) {
+			return !(A == B);
+		}
+
+	template <class Iterator1, class Iterator2>
+		bool	operator!=(const map_iterator<Iterator1>& A, const map_iterator<Iterator2>& B) {
+			return !(A == B);
+		}
+
+	//================================================================================
 
 	template <class T>
 		class	vector_iterator {
@@ -275,7 +394,7 @@ namespace ft {
 		typename vector_iterator<Iterator>::difference_type	operator-(const vector_iterator<Iterator>& first, const vector_iterator<Iterator>& second) {
 			return first.base() - second.base();
 		}
-	
+
 	/*========================*/
 	/*REVERSE ITERATOR CLASSES*/
 	/*========================*/
