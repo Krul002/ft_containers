@@ -197,13 +197,13 @@ void	modifiers2() {
 		std::list<ft::pair<int, int> >::iterator	it_ft = lst_ft.begin();
 		std::map<int, int>::iterator	std_it = std_vec.begin();
 		ft::map<int, int>::iterator	ft_it = ft_vec.begin();
-
+		
 		std_vec.insert(std_it, *it_std);
 		ft_vec.insert(ft_it, *it_ft);
 		bool	one = test_map<int, std::map<int, int>::iterator, ft::map<int, int>::iterator>(std_vec, ft_vec);
 		print_test_map<int, std::map<int, int>::iterator, ft::map<int, int>::iterator>(std_vec, ft_vec, mode, 1, "./test/map/insert_hint");
-
-		for (; it_ft != lst_ft.end() && it_std != lst_std.end(); ++it_ft, ++it_std, ++ft_it, ++std_it) {
+		
+		for (; it_ft != lst_ft.end() && it_std != lst_std.end(); ++it_ft, ++it_std) {
 			std_vec.insert(std_it, *it_std);
 			ft_vec.insert(ft_it, *it_ft);
 		}
@@ -219,11 +219,13 @@ void	modifiers2() {
 		std::map<int, int>::iterator	it_std = std_vec.begin();
 		ft::map<int, int>::iterator	it_ft = ft_vec.begin();
 
-		std_vec.erase(it_std++);
-		ft_vec.erase(it_ft++);
+		std_vec.erase(it_std);
+		ft_vec.erase(it_ft);
 		bool	one = test_map<int, std::map<int, int>::iterator, ft::map<int, int>::iterator>(std_vec, ft_vec);
 		print_test_map<int, std::map<int, int>::iterator, ft::map<int, int>::iterator>(std_vec, ft_vec, mode, 1, "./test/map/erase_hint");
 
+		it_std = std_vec.begin();
+		it_ft = ft_vec.begin();
 		++it_std;
 		++it_std;
 		++it_ft;

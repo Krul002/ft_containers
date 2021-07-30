@@ -21,8 +21,8 @@
 int		main(int narg, char **args) {
 	mkdir("./test", 0777);
 	if (narg < 2) {
-		test_map();
 		test_vector();
+		test_map();
 		test_stack();
 	}
 	else {
