@@ -32,7 +32,7 @@ namespace ft {
 			typedef T	mapped_type;
 			typedef ft::pair<const typename check_const<key_type>::type, mapped_type>	value_type;
 			typedef Compare	key_compare;
-			typedef ft::less<T>	value_compare;
+			typedef ft::less<ft::pair<const Key,T> >	value_compare;
 			typedef Alloc	allocator_type;
 			typedef typename allocator_type::reference	reference;
 			typedef typename allocator_type::const_reference	const_reference;
@@ -65,11 +65,11 @@ namespace ft {
 
 			template <class InputIterator>
 				map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), char (*)[sizeof(*first)] = NULL) : _k_comp(comp), _alloc(alloc), _root(NULL), _end(NULL), _size(0) {
-					this->_end = this->_tree.create_node(ft::make_pair(key_type(), mapped_type()));
+					this->_end = this->_tree.create_node(ft::make_pair(key_type(), mapped_type()), NULL);
 					this->insert(first, last);
 				}
 
-			map (const map& x) {
+			map (const map& x) : _root(NULL), _end(NULL), _size(0) {
 				this->_end = this->_tree.create_node(ft::make_pair(key_type(), mapped_type()), NULL);
 				*this = x;
 			}
@@ -116,22 +116,22 @@ namespace ft {
 
 			reverse_iterator rbegin() {
 				if (!this->_root)
-					return reverse_iterator(this->_end);
-				return reverse_iterator(this->_tree.max_node(this->_root));
+					return reverse_iterator(iterator(this->_end));
+				return reverse_iterator(iterator(this->_tree.max_node(this->_root)));
 			}
 
 			const_reverse_iterator rbegin() const {
 				if (!this->_root)
-					return const_reverse_iterator(this->_end);
-				return const_reverse_iterator(this->_tree.max_node(this->_root));
+					return const_reverse_iterator(const_iterator(this->_end));
+				return const_reverse_iterator(const_iterator(this->_tree.max_node(this->_root)));
 			}
 
 			reverse_iterator rend() {
-				return reverse_iterator(this->_end);
+				return reverse_iterator(iterator(this->_end));
 			}
 
 			const_reverse_iterator rend() const {
-				return const_reverse_iterator(this->_end);
+				return const_reverse_iterator(const_iterator(this->_end));
 			}
 
 			/*
@@ -167,12 +167,19 @@ namespace ft {
 				bool	ret = this->_tree.insert(&this->_root, this->_tree.create_node(val, this->_end));
 				if (ret)
 					++this->_size;
-				return ft::pair<iterator, bool>(iterator(this->_tree.find_node(&this->_root, val.first)), ret);
+				node*	n = this->_tree.find_node(&this->_root, val.first);
+				if (n)
+					return ft::pair<iterator, bool>(iterator(n), ret);
+				return ft::pair<iterator, bool>(iterator(this->_end), ret);
 			}
 			iterator insert (iterator position, const value_type& val) {
 				bool	ret = this->_tree.insert(&this->_root, this->_tree.create_node(val, this->_end));
 				if (ret)
 					++this->_size;
+				node*	n = this->_tree.find_node(&this->_root, val.first);
+				if (n)
+					return iterator(n);
+				return iterator(this->_end);
 			}
 			template <class InputIterator>
 				void insert (InputIterator first, InputIterator last, char (*)[sizeof(*first)] = NULL) {
@@ -192,8 +199,8 @@ namespace ft {
 				return static_cast<size_type>(ret);
 			}
 			void erase (iterator first, iterator last) {
-				for (; first != last; ++first)
-					this->erase(first);
+				for (; first != last;)
+					this->erase(first++);
 			}
 
 			void	swap(map& x) {
@@ -204,6 +211,7 @@ namespace ft {
 
 			void clear() {
 				this->_tree.clear(&this->_root);
+				this->_size = 0;
 			}
 
 			/*

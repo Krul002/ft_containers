@@ -3,9 +3,11 @@
 #include <ios>
 #include <iostream>
 #include <iterator>
+#include <list>
 #include <map>
 #include <ostream>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 #include "map.hpp"
@@ -14,12 +16,15 @@
 #include "new_iterator.hpp"
 #include <stack>
 #include "stack.hpp"
+// #include "tester/tests/iterator.hpp"
+
 
 int		main(int narg, char **args) {
+	mkdir("./test", 0777);
 	if (narg < 2) {
 		// test_vector();
 		// test_stack();
-		// test_map();
+		test_map();
 	}
 	else {
 		for (int i = 0; i < narg; ++i) {

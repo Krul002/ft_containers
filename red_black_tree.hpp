@@ -88,6 +88,16 @@ namespace ft {
 			}
 		};
 
+	template <class T>
+		struct less<ft::pair<T, class Value> > : std::binary_function<T,T,bool> {
+			typedef T first_argument_type;
+			typedef T second_argument_type;
+			typedef bool result_type;
+			bool	operator()(const T& x, const T& y) const {
+				return x.first < y.first;
+			}
+		};
+
 	/*
 		MAP_NODE
 	*/
@@ -298,8 +308,9 @@ namespace ft {
 						n = min_node(n->parent);
 					else if (n == max_node(n))
 						n = n->end;
-					else if (n->right)
+					else if (n->right) {
 						n = min_node(n->right, false);
+					}
 					else if (n->parent) {
 						while (n->parent->right == n)
 							n = n->parent;
@@ -369,6 +380,8 @@ namespace ft {
 			}
 
 			node*	erase_right(node* n, node** root) {
+				if (n->pair.first == 761)
+					std::cout << n->right->pair.first << std::endl;
 				node*	replace = min_node(n->right, false);
 				if (replace) {
 					if (replace == n->right) {

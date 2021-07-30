@@ -60,14 +60,18 @@ namespace ft {
 	
 	template <class T>
 		struct	check_const {
+			T	_n;
 			typedef T type;
 			check_const() {std::cout << "NOT CONST" << std::endl;}
+			check_const(T n) : _n(n) {}
 		};
 	
 	template <class T>
 		struct	check_const<const T> {
+			T	_n;
 			typedef T type;
 			check_const() {std::cout << "CONST" << std::endl;}
+			check_const(T n) : _n(n) {}
 		};
 
 	template <class T>
