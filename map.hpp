@@ -243,32 +243,44 @@ namespace ft {
 				return const_iterator(this->_end);
 			}
 
-			size_type count (const key_type& k) const {
+			size_type count (const key_type& k) {
 				node*	n = this->_tree.find_node(&this->_root, k);
 				return static_cast<size_type>(n != NULL);
 			}
 
 			iterator lower_bound (const key_type& k) {
-				node*	n = this->_tree.find_lower_node(&this->_root, k);
+				node*	n = this->_tree.min_node(this->_root);
+				while (n && k > n->pair.first)
+					n = this->_tree.min_to_max(n);
 				if (n)
 					return iterator(n);
 				return iterator(this->_end);
 			}
 			const_iterator lower_bound (const key_type& k) const {
-				node*	n = this->_tree.find_lower_node(&this->_root, k);
+				node*	n = this->_tree.min_node(this->_root);
+				while (n && k > n->pair.first)
+					n = this->_tree.min_to_max(n);
 				if (n)
 					return const_iterator(n);
 				return const_iterator(this->_end);
 			}
 
 			iterator upper_bound (const key_type& k) {
-				node*	n = this->_tree.find_upper_node(&this->_root, k);
+				node*	n = this->_tree.min_node(this->_root);
+				while (n && k > n->pair.first)
+					n = this->_tree.min_to_max(n);
+				if (n && n->pair.first == k)
+					n = this->_tree.min_to_max(n);
 				if (n)
 					return iterator(n);
 				return iterator(this->_end);
 			}
 			const_iterator upper_bound (const key_type& k) const {
-				node*	n = this->_tree.find_upper_node(&this->_root, k);
+				node*	n = this->_tree.min_node(this->_root);
+				while (n && k > n->pair.first)
+					n = this->_tree.min_to_max(n);
+				if (n && n->pair.first == k)
+					n = this->_tree.min_to_max(n);
 				if (n)
 					return const_iterator(n);
 				return const_iterator(this->_end);
