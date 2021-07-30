@@ -23,17 +23,15 @@ int		main(int narg, char **args) {
 	if (narg < 2) {
 		test_map();
 		test_vector();
-		// test_stack();
+		test_stack();
 	}
 	else {
-		for (int i = 0; i < narg; ++i) {
-			if (std::string(args[i]) == "vector")
-				test_vector();
-			// if (std::string(args[i]) == "stack")
-			// 	test_stack();
-			if (std::string(args[i]) == "map")
-				test_map();
-		}
+		if (std::string(args[1]) == "map")
+			test_map();
+		if (std::string(args[1]) == "vector")
+			test_vector();
+		if (std::string(args[1]) == "stack")
+			test_stack();
 	}
 	return 0;
 }

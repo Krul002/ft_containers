@@ -116,10 +116,8 @@ void	modifiers2() {
 		++it_std;
 		++it_ft;
 		++it_ft;
-		for (; it_ft != lst_ft.end() && it_std != lst_std.end(); ++it_ft, ++it_std) {
-			std_vec.erase(it_std->first);
-			ft_vec.erase(it_ft->first);
-		}
+		std_vec.erase(it_std->first);
+		ft_vec.erase(it_ft->first);
 		bool	two = test_map<int, std::map<int, int>::iterator, ft::map<int, int>::iterator>(std_vec, ft_vec);
 		print_test_map<int, std::map<int, int>::iterator, ft::map<int, int>::iterator>(std_vec, ft_vec, mode, 2, "./test/map/erase_single");
 		print_result(one && two, true);

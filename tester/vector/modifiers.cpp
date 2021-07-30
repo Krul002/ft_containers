@@ -37,7 +37,7 @@ void	modifiers() {
 			ft_vec.pop_back();
 			one = test_vector<int, std::vector<int>::iterator, ft::vector<int>::iterator>(std_vec, ft_vec);
 		}
-		print_test_vector<int, std::vector<int>::iterator, ft::vector<int>::iterator>(std_vec, ft_vec, mode, 1, "./test/vector/push_back");
+		print_test_vector<int, std::vector<int>::iterator, ft::vector<int>::iterator>(std_vec, ft_vec, mode, 1, "./test/vector/pop_back");
 		print_result(one, std_vec.capacity() == ft_vec.capacity());
 	}
 	/*  INSERT */

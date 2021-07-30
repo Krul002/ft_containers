@@ -203,6 +203,7 @@ namespace ft {
 			}
 
 			map_iterator	operator++(int n) {
+				static_cast<void>(n);
 				map_iterator<pair>	tmp(*this);
 				this->_base = this->_tree.min_to_max(this->_base);
 				return tmp;
@@ -214,6 +215,7 @@ namespace ft {
 			}
 
 			map_iterator	operator--(int n) {
+				static_cast<void>(n);
 				map_iterator<pair>	tmp(*this);
 				this->_base = this->_tree.max_to_min(this->_base);
 				return tmp;
@@ -293,6 +295,7 @@ namespace ft {
 			}
 
 			vector_iterator	operator++(int n) {
+				static_cast<void>(n);
 				vector_iterator<T>	tmp(*this);
 				++this->_base;
 				return tmp;
@@ -314,6 +317,7 @@ namespace ft {
 			}
 
 			vector_iterator	operator--(int n) {
+				static_cast<void>(n);
 				vector_iterator<T>	tmp(*this);
 				--this->_base;
 				return tmp;
@@ -455,6 +459,7 @@ namespace ft {
 			}
 
 			reverse_iterator	operator++(int n) {
+				static_cast<void>(n);
 				reverse_iterator<Iterator>	tmp(*this);
 				--this->_base;
 				return tmp;
@@ -476,6 +481,7 @@ namespace ft {
 			}
 
 			reverse_iterator	operator--(int n) {
+				static_cast<void>(n);
 				reverse_iterator<Iterator>	tmp(*this);
 				++this->_base;
 				return tmp;

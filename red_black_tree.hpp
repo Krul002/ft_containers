@@ -292,8 +292,11 @@ namespace ft {
 					}
 					else
 						replace = remove;
-					if (replace == remove && remove == *root)
+					if (replace == remove && remove == *root) {
 						*root = NULL;
+						if (replace->end)
+							replace->end->parent = NULL;
+					}
 					delete_node(replace);
 					return true;
 				}

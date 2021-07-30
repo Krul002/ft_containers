@@ -21,7 +21,6 @@ void	constructors2();
 void	capacity2();
 void	access2();
 void	modifiers2();
-void	operators2();
 void	observers();
 void	operations();
 
